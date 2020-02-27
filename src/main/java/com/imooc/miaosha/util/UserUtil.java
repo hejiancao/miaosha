@@ -84,7 +84,7 @@ public class UserUtil {
 			JSONObject jo = JSON.parseObject(response);
 			String token = jo.getString("data");
 			System.out.println("create token : " + user.getId());
-			
+
 			String row = user.getId()+","+token;
 			raf.seek(raf.length());
 			raf.write(row.getBytes());

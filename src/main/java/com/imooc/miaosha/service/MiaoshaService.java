@@ -20,10 +20,13 @@ public class MiaoshaService {
 	@Transactional
 	public OrderInfo miaosha(MiaoshaUser user, GoodsVo goods) {
 		//减库存 下订单 写入秒杀订单
-		goodsService.reduceStock(goods);
-		//order_info maiosha_order
-		//解决一个用户秒杀同一个商品多次，使用唯一索引
-		return orderService.createOrder(user, goods);
+		boolean success = goodsService.reduceStock(goods);
+		if (success) {
+			//order_info maiosha_order
+			//解决一个用户秒杀同一个商品多次，使用唯一索引
+			return orderService.createOrder(user, goods);
+		}
+		return null;
 	}
-	
+
 }
