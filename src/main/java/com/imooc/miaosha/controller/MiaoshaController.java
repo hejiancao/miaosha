@@ -96,6 +96,10 @@ public class MiaoshaController implements InitializingBean {
      * QPS:1114
      * 1000 * 10
      *
+     * 接口优化后:
+     *  QPS:1623
+     *  1000*10
+     *
      * GET POST有什么区别？
      * GET:只有查询的时候使用，对数据有操作的不可用GET方式，比如delete?id=1这种方式是不对的，浏览器在获取列表的时候会遍历接口，可能会误删数据
      */
