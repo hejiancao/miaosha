@@ -114,6 +114,7 @@ public class MiaoshaController implements InitializingBean {
             return Result.error(CodeMsg.REQUEST_ILLEGAL);
         }
 
+        //内存标记，减少redis访问
         Boolean isOver = localOverMap.get(goodsId);
         if (isOver) {
             return Result.error(CodeMsg.MIAO_SHA_OVER);
