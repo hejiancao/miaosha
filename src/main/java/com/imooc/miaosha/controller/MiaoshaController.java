@@ -10,10 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.CollectionUtils;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import com.imooc.miaosha.domain.MiaoshaOrder;
 import com.imooc.miaosha.domain.MiaoshaUser;
@@ -103,11 +100,18 @@ public class MiaoshaController implements InitializingBean {
      * GET POST有什么区别？
      * GET:只有查询的时候使用，对数据有操作的不可用GET方式，比如delete?id=1这种方式是不对的，浏览器在获取列表的时候会遍历接口，可能会误删数据
      */
-    @RequestMapping(value = "/do_miaosha", method = RequestMethod.POST)
+    @RequestMapping(value = "/{path}/do_miaosha", method = RequestMethod.POST)
     @ResponseBody
-    public Result<Integer> miaosha(MiaoshaUser user, @RequestParam("goodsId") long goodsId) {
+    public Result<Integer> miaosha(MiaoshaUser user,
+                           @RequestParam("goodsId") long goodsId,
+                           @PathVariable("path") String path) {
         if (user == null) {
             return Result.error(CodeMsg.SESSION_ERROR);
+        }
+
+        boolean truePath = miaoshaService.checkMiaoshaPath(user, goodsId, path);
+        if (!truePath) {
+            return Result.error(CodeMsg.REQUEST_ILLEGAL);
         }
 
         Boolean isOver = localOverMap.get(goodsId);
@@ -168,6 +172,24 @@ public class MiaoshaController implements InitializingBean {
         long result  = miaoshaService.getMiaoshaResult(user.getId(), goodsId);
         return Result.success(result);
     }
+
+    /**
+     * 获取秒杀地址
+     * @param user
+     * @param goodsId
+     * @return
+     */
+    @RequestMapping(value="/path", method=RequestMethod.GET)
+    @ResponseBody
+    public Result<String> getMiaoshaPath(MiaoshaUser user, @RequestParam("goodsId")long goodsId) {
+        if(user == null) {
+            return Result.error(CodeMsg.SESSION_ERROR);
+        }
+        String path  = miaoshaService.getMiaoshaPath(user, goodsId);
+        return Result.success(path);
+    }
+
+
 
 
 }
