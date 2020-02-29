@@ -8,4 +8,6 @@ public class MiaoshaKey extends BasePrefix {
 
     public static MiaoshaKey isGoodsOver = new MiaoshaKey( 0, "go");
     public static MiaoshaKey getMiaoshaPath = new MiaoshaKey( 30, "mp");
+    public static MiaoshaKey getMiaoshaVerifyCode = new MiaoshaKey( 60, "mvc");
+
 }
