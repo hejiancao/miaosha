@@ -5,6 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.imooc.miaosha.result.CodeMsg;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -137,6 +138,9 @@ public class GoodsController {
     @ResponseBody
     public Result<GoodsDetailVo> detail(HttpServletRequest request, HttpServletResponse response, Model model,MiaoshaUser user,
     		@PathVariable("goodsId")long goodsId) {
+		if (user == null) {
+			return Result.error(CodeMsg.SESSION_ERROR);
+		}
     	GoodsVo goods = goodsService.getGoodsVoByGoodsId(goodsId);
     	long startAt = goods.getStartDate().getTime();
     	long endAt = goods.getEndDate().getTime();

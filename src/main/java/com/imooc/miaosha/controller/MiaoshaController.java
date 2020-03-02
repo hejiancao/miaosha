@@ -1,10 +1,9 @@
 package com.imooc.miaosha.controller;
 
+import com.imooc.miaosha.access.AccessLimit;
 import com.imooc.miaosha.rabbitmq.MQSender;
 import com.imooc.miaosha.rabbitmq.MiaoshaMessage;
-import com.imooc.miaosha.redis.GoodsKey;
-import com.imooc.miaosha.redis.MiaoshaKey;
-import com.imooc.miaosha.redis.OrderKey;
+import com.imooc.miaosha.redis.*;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import com.imooc.miaosha.domain.MiaoshaOrder;
 import com.imooc.miaosha.domain.MiaoshaUser;
 import com.imooc.miaosha.domain.OrderInfo;
-import com.imooc.miaosha.redis.RedisService;
 import com.imooc.miaosha.result.CodeMsg;
 import com.imooc.miaosha.result.Result;
 import com.imooc.miaosha.service.GoodsService;
@@ -23,6 +21,7 @@ import com.imooc.miaosha.service.MiaoshaService;
 import com.imooc.miaosha.service.MiaoshaUserService;
 import com.imooc.miaosha.service.OrderService;
 import com.imooc.miaosha.vo.GoodsVo;
+import sun.font.TrueTypeFont;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletResponse;
@@ -91,6 +90,40 @@ public class MiaoshaController implements InitializingBean {
         return Result.success(true);
     }
 
+
+    /**
+     * 获取秒杀地址
+     * @param user
+     * @param goodsId
+     * @return
+     */
+    @AccessLimit(seconds = 5, maxCount = 5, needLogin = true)//限流 - 通用方法
+    @RequestMapping(value="/path", method=RequestMethod.GET)
+    @ResponseBody
+    public Result<String> getMiaoshaPath(MiaoshaUser user,
+                                         @RequestParam("goodsId")long goodsId,
+                                         @RequestParam(value = "verifyCode", defaultValue = "0" ) int verifyCode) {
+//        if(user == null) {
+//            return Result.error(CodeMsg.SESSION_ERROR);
+//        }
+//        //限流 - 基本做法
+//        Integer count = redisService.get(AccessKey.getAccessKey, user.getId() + ":" + goodsId, Integer.class);
+//        if (count == null) {
+//            redisService.set(AccessKey.getAccessKey, user.getId() + ":" + goodsId,1);
+//        } else if (count < 5) {
+//            redisService.incr(AccessKey.getAccessKey, user.getId() + ":" + goodsId);
+//        } else {
+//            return Result.error(CodeMsg.ACCESS_LIMIT_REACHED);
+//        }
+
+        boolean check = miaoshaService.checkVerifyCode(user, goodsId, verifyCode);
+        if (!check) {
+            return Result.error(CodeMsg.VERIFYCODE_ERROR);
+        }
+
+        String path  = miaoshaService.getMiaoshaPath(user, goodsId);
+        return Result.success(path);
+    }
 
 
     /**
@@ -176,30 +209,6 @@ public class MiaoshaController implements InitializingBean {
         }
         long result  = miaoshaService.getMiaoshaResult(user.getId(), goodsId);
         return Result.success(result);
-    }
-
-    /**
-     * 获取秒杀地址
-     * @param user
-     * @param goodsId
-     * @return
-     */
-    @RequestMapping(value="/path", method=RequestMethod.GET)
-    @ResponseBody
-    public Result<String> getMiaoshaPath(MiaoshaUser user,
-                                         @RequestParam("goodsId")long goodsId,
-                                         @RequestParam(value = "verifyCode", defaultValue = "0" ) int verifyCode) {
-        if(user == null) {
-            return Result.error(CodeMsg.SESSION_ERROR);
-        }
-
-        boolean check = miaoshaService.checkVerifyCode(user, goodsId, verifyCode);
-        if (!check) {
-            return Result.error(CodeMsg.VERIFYCODE_ERROR);
-        }
-
-        String path  = miaoshaService.getMiaoshaPath(user, goodsId);
-        return Result.success(path);
     }
 
 

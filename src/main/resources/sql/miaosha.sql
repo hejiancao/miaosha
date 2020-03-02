@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50527
 File Encoding         : 65001
 
-Date: 2020-02-27 21:50:03
+Date: 2020-03-02 14:29:02
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -53,8 +53,8 @@ CREATE TABLE `miaosha_goods` (
 -- ----------------------------
 -- Records of miaosha_goods
 -- ----------------------------
-INSERT INTO `miaosha_goods` VALUES ('1', '1', '0', '2020-02-27 10:47:57', '2020-02-28 10:43:04', '0.01');
-INSERT INTO `miaosha_goods` VALUES ('2', '2', '10', '2020-02-27 10:43:01', '2020-02-28 10:43:09', '0.01');
+INSERT INTO `miaosha_goods` VALUES ('1', '1', '10', '2020-02-27 10:47:57', '2020-03-07 10:43:04', '0.01');
+INSERT INTO `miaosha_goods` VALUES ('2', '2', '10', '2020-02-27 10:43:01', '2020-03-07 10:43:09', '0.01');
 
 -- ----------------------------
 -- Table structure for miaosha_order
@@ -67,21 +67,11 @@ CREATE TABLE `miaosha_order` (
   `goods_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `uni_userid_goodsid` (`user_id`,`goods_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=120 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=420 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of miaosha_order
 -- ----------------------------
-INSERT INTO `miaosha_order` VALUES ('110', '13000000074', '110', '1');
-INSERT INTO `miaosha_order` VALUES ('111', '13000000167', '111', '1');
-INSERT INTO `miaosha_order` VALUES ('112', '13000000140', '112', '1');
-INSERT INTO `miaosha_order` VALUES ('113', '13000000147', '113', '1');
-INSERT INTO `miaosha_order` VALUES ('114', '13000000080', '114', '1');
-INSERT INTO `miaosha_order` VALUES ('115', '13000000174', '115', '1');
-INSERT INTO `miaosha_order` VALUES ('116', '13000000129', '116', '1');
-INSERT INTO `miaosha_order` VALUES ('117', '13000000168', '117', '1');
-INSERT INTO `miaosha_order` VALUES ('118', '13000000175', '118', '1');
-INSERT INTO `miaosha_order` VALUES ('119', '13000000059', '119', '1');
 
 -- ----------------------------
 -- Table structure for miaosha_user
@@ -5121,21 +5111,11 @@ CREATE TABLE `order_info` (
   `create_date` datetime DEFAULT NULL,
   `pay_date` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=120 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=420 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of order_info
 -- ----------------------------
-INSERT INTO `order_info` VALUES ('110', '13000000074', '1', null, 'iphoneX', '1', '0', '1', '0', '2020-02-27 21:47:58', null);
-INSERT INTO `order_info` VALUES ('111', '13000000167', '1', null, 'iphoneX', '1', '0', '1', '0', '2020-02-27 21:47:58', null);
-INSERT INTO `order_info` VALUES ('112', '13000000140', '1', null, 'iphoneX', '1', '0', '1', '0', '2020-02-27 21:47:58', null);
-INSERT INTO `order_info` VALUES ('113', '13000000147', '1', null, 'iphoneX', '1', '0', '1', '0', '2020-02-27 21:47:58', null);
-INSERT INTO `order_info` VALUES ('114', '13000000080', '1', null, 'iphoneX', '1', '0', '1', '0', '2020-02-27 21:47:58', null);
-INSERT INTO `order_info` VALUES ('115', '13000000174', '1', null, 'iphoneX', '1', '0', '1', '0', '2020-02-27 21:47:58', null);
-INSERT INTO `order_info` VALUES ('116', '13000000129', '1', null, 'iphoneX', '1', '0', '1', '0', '2020-02-27 21:47:58', null);
-INSERT INTO `order_info` VALUES ('117', '13000000168', '1', null, 'iphoneX', '1', '0', '1', '0', '2020-02-27 21:47:58', null);
-INSERT INTO `order_info` VALUES ('118', '13000000175', '1', null, 'iphoneX', '1', '0', '1', '0', '2020-02-27 21:47:58', null);
-INSERT INTO `order_info` VALUES ('119', '13000000059', '1', null, 'iphoneX', '1', '0', '1', '0', '2020-02-27 21:47:58', null);
 
 -- ----------------------------
 -- Table structure for user

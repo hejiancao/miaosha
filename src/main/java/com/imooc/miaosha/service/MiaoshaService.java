@@ -147,7 +147,7 @@ public class MiaoshaService {
         char ops1 = ops[rdm.nextInt(3)];
         char ops2 = ops[rdm.nextInt(3)];
         String exp = "" + num1 + ops1 + num2 + ops2 + num3;
-        log.info("exp = " + exp);
+//        log.info("exp = " + exp);
         return exp;
     }
 
