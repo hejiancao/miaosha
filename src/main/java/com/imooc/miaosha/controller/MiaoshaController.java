@@ -93,6 +93,10 @@ public class MiaoshaController implements InitializingBean {
 
     /**
      * 获取秒杀地址
+     * 秒杀的游戏规则是到了秒杀才能开始对商品下单购买，在此时间点之前，只能浏览商品信息，不能下单。而下单页面也是一个普通的URL，如果得到这个
+     * URL，不用等到秒杀开始就可以下单了。
+     * 解决方案：为了避免用户直接访问下单页面URL，需要将改URL动态化，即使秒杀系统的开发者也无法在秒杀开始前访问下单页面的URL。办法是在下单页
+     * 面URL加入由服务器端生成的随机数作为参数，在秒杀开始的时候才能得到。
      * @param user
      * @param goodsId
      * @return
